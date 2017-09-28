@@ -3,12 +3,16 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
-import { HomePage } from '../pages/home/home';
+import { UserListPage } from '../pages/user-list/user-list';
+import { LoginPage } from '../pages/login/login';
+import { CameraPage } from '../pages/camera/camera';
+import { InstructionsPage } from '../pages/instructions/instructions';
+
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = HomePage;
+  rootPage:any = UserListPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {

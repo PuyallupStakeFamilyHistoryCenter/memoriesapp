@@ -4,13 +4,24 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { VideoCapturePlus } from '@ionic-native/video-capture-plus';
+import { SocialSharing } from '@ionic-native/social-sharing';
+
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
+import { UserListPage } from '../pages/user-list/user-list';
+import { LoginPage } from '../pages/login/login';
+import { CameraPage } from '../pages/camera/camera';
+import { InstructionsPage } from '../pages/instructions/instructions';
 
 @NgModule({
   declarations: [
     MyApp,
-    HomePage
+    UserListPage,
+    LoginPage,
+    CameraPage,
+    InstructionsPage
   ],
   imports: [
     BrowserModule,
@@ -19,11 +30,18 @@ import { HomePage } from '../pages/home/home';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    UserListPage,
+    LoginPage,
+    CameraPage,
+    InstructionsPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    FileTransfer,
+    File,
+    VideoCapturePlus,
+    SocialSharing,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
