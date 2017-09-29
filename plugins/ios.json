@@ -39,6 +39,9 @@
             "MICROPHONE_USAGE_DESCRIPTION": " ",
             "PHOTOLIBRARY_USAGE_DESCRIPTION": " ",
             "PACKAGE_NAME": "org.puyallupfamilyhistorycenter.memoriesapp"
+        },
+        "cordova-plugin-console": {
+            "PACKAGE_NAME": "org.puyallupfamilyhistorycenter.memoriesapp"
         }
     },
     "dependent_plugins": {

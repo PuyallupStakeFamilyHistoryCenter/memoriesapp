@@ -288,7 +288,6 @@ var CameraPage = (function () {
                         var videoItem = _this.videoList[_this.videoList.length - 1];
                         // Add upload data to video item for manual upload option
                         videoItem.uploadData = responseObj;
-                        console.log(videoItem);
                         // Attempt to upload video item automatically
                         _this.uploadVideo(videoItem);
                         break;
@@ -385,7 +384,6 @@ var CameraPage = (function () {
     };
     CameraPage.prototype.uploadVideo = function (uploadItem) {
         var _this = this;
-        console.log(uploadItem);
         var options = {
             httpMethod: 'PUT',
             fileName: uploadItem.name,
@@ -401,6 +399,7 @@ var CameraPage = (function () {
         this.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then(function (data) {
             uploadItem.uploadProgress = false;
             uploadItem.uploadSuccess = true;
+            console.log('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
             _this.sendMsg('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
             var toast = _this.toastCtrl.create({
                 message: 'Your video "' + uploadItem.name + '" was uploaded successfully',
@@ -417,7 +416,7 @@ var CameraPage = (function () {
                 _this.errorString = error.body.substr(actualStart, (strLength - actualStart));
             }
             else {
-                _this.errorString = error.body;
+                _this.errorString = error.body != '' ? error.body : "Upload Failed.";
             }
             var toast = _this.toastCtrl.create({
                 message: _this.errorString,

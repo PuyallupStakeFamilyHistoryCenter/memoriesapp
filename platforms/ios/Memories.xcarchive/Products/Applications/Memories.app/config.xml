@@ -46,6 +46,9 @@
     <feature name="Capture">
         <param name="ios-package" value="CDVCapture" />
     </feature>
+    <feature name="Console">
+        <param name="ios-package" value="CDVLogger" />
+    </feature>
     <name>Memories</name>
     <description>An Ionic/Cordova app for recording video memories for Family History.</description>
     <author email="admin@puyallupfamilyhistorycenter.org" href="http://puyallupfamilyhistorycenter.org/">Puyallup Family History Center</author>

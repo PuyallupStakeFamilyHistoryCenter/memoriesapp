@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00B4CA1B22C74BB28BDCF602 /* CDVCapture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D2FFB3CA0E5C44F9BC793BD9 /* CDVCapture.bundle */; };
 		0207DA581B56EA530066E2B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0207DA571B56EA530066E2B4 /* Images.xcassets */; };
@@ -30,6 +29,7 @@
 		F278FA4948A04BC783688934 /* CDVFile.m in Sources */ = {isa = PBXBuildFile; fileRef = D6B283C55AB641D0B52DFB84 /* CDVFile.m */; };
 		FB0447A72DC749FD9DB2AEC7 /* CDVSplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 6CDDC04EFE2842F38863FC89 /* CDVSplashScreen.m */; };
 		FEF415846AE14308B63695CF /* SocialSharing.m in Sources */ = {isa = PBXBuildFile; fileRef = 77A252E7EF154107878BF51D /* SocialSharing.m */; };
+		3A4C413AE4F74CE3B90F3ACA /* CDVLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C4AB055B551477DB47F230F /* CDVLogger.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +106,8 @@
 		ED33DF2A687741AEAF9F8254 /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		F1A84951462743429D1DA27A /* CDVViewController+SplashScreen.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "CDVViewController+SplashScreen.h"; path = "cordova-plugin-splashscreen/CDVViewController+SplashScreen.h"; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Memories/config.xml; sourceTree = "<group>"; };
+		1C4AB055B551477DB47F230F /* CDVLogger.m */ = {isa = PBXFileReference; name = "CDVLogger.m"; path = "cordova-plugin-console/CDVLogger.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		F6ADB835570549DA918CE59A /* CDVLogger.h */ = {isa = PBXFileReference; name = "CDVLogger.h"; path = "cordova-plugin-console/CDVLogger.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -241,6 +243,8 @@
 				40766A21C00048EA89836B83 /* IonicKeyboard.h */,
 				3E6D6574E2664E15A14C6BC5 /* CDVCapture.m */,
 				518D87898029475DAEF47022 /* CDVCapture.h */,
+				1C4AB055B551477DB47F230F /* CDVLogger.m */,
+				F6ADB835570549DA918CE59A /* CDVLogger.h */,
 			);
 			name = Plugins;
 			path = Memories/Plugins;
@@ -382,6 +386,7 @@
 				7B59914B86094F6D9F8A3FB2 /* CDVStatusBar.m in Sources */,
 				8F5329949AD34C9AA20E9720 /* IonicKeyboard.m in Sources */,
 				F13F952273C14644892B8CEA /* CDVCapture.m in Sources */,
+				3A4C413AE4F74CE3B90F3ACA /* CDVLogger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,7 +419,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Memories/Memories-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				PRODUCT_NAME = Memories;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -437,7 +442,7 @@
 				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "Memories/Memories-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				PRODUCT_NAME = Memories;
 				TARGETED_DEVICE_FAMILY = "1,2";

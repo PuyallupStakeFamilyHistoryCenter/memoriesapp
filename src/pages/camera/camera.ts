@@ -58,8 +58,6 @@ export class CameraPage {
 						// Add upload data to video item for manual upload option
 						videoItem.uploadData = responseObj;
 						
-						console.log(videoItem);
-						
 						// Attempt to upload video item automatically
 						this.uploadVideo(videoItem);
 					break;
@@ -167,9 +165,7 @@ export class CameraPage {
 		this.showPrompt();
 	}
 	
-	uploadVideo(uploadItem) {
-		console.log(uploadItem);
-		
+	uploadVideo(uploadItem) {		
 		let options: FileUploadOptions = {
 			httpMethod: 'PUT',
 		    fileName: uploadItem.name,
@@ -187,6 +183,7 @@ export class CameraPage {
 		this.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then((data) => {
 			uploadItem.uploadProgress = false;
 			uploadItem.uploadSuccess = true;
+			
 			this.sendMsg('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
 			let toast = this.toastCtrl.create({
 				message: 'Your video "' + uploadItem.name + '" was uploaded successfully',
@@ -203,7 +200,7 @@ export class CameraPage {
 		    	let strLength = error.body.indexOf('</Message>');
 		    	this.errorString = error.body.substr(actualStart, (strLength - actualStart));
 	    	} else {
-		    	this.errorString = error.body
+		    	this.errorString = error.body != '' ? error.body : "Upload Failed."
 	    	}
 	    	
 	    	let toast = this.toastCtrl.create({
