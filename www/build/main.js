@@ -260,7 +260,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var CameraPage = (function () {
-    function CameraPage(navCtrl, toastCtrl, alertCtrl, modalCtrl, transfer, fileCtrl, videoCapturePlus, socialSharing, messageService) {
+    function CameraPage(navCtrl, toastCtrl, alertCtrl, modalCtrl, transfer, fileCtrl, videoCapturePlus, socialSharing, messageService, chngDetect) {
         var _this = this;
         this.navCtrl = navCtrl;
         this.toastCtrl = toastCtrl;
@@ -271,10 +271,10 @@ var CameraPage = (function () {
         this.videoCapturePlus = videoCapturePlus;
         this.socialSharing = socialSharing;
         this.messageService = messageService;
+        this.chngDetect = chngDetect;
         this.shareStatus = false;
         this.videoList = [];
         this.videoPathArray = [];
-        this.fileTransfer = this.transfer.create();
         this.errorString = 'Error';
         messageService.messages.subscribe(function (msg) {
             console.log("Response from websocket: " + msg);
@@ -304,9 +304,6 @@ var CameraPage = (function () {
                 }
             }
         });
-        /*this.fileTransfer.onProgress(event => {
-            
-        });*/
     }
     CameraPage.prototype.ionViewDidLoad = function () {
         // Show instructions on page load
@@ -367,7 +364,7 @@ var CameraPage = (function () {
         this.fileCtrl.checkDir(this.fileCtrl.documentsDirectory, 'pfhc_videos').then(function (exists) { return console.log('Video Folder Exists'); }, function (error) { return _this.fileCtrl.createDir(_this.fileCtrl.documentsDirectory, 'pfhc_videos', true).then(function (dirEntry) { return console.log(dirEntry); }, function (error) { return console.log('Could not create video directory'); }); });
         // Capture video and if accepted, call saveVideo function
         this.videoCapturePlus.captureVideo({
-            limit: 120,
+            limit: 1,
             highquality: true,
             portraitOverlay: 'assets/img/camera/overlay/portrait.png',
             landscapeOverlay: 'assets/img/camera/overlay/landscape.png'
@@ -393,13 +390,19 @@ var CameraPage = (function () {
                 'Content-Type': 'video/quicktime'
             }
         };
+        uploadItem.fileTransfer = this.transfer.create();
+        uploadItem.progress = 0;
         uploadItem.uploadSuccess = false;
         uploadItem.uploadFail = false;
         uploadItem.uploadProgress = true;
-        this.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then(function (data) {
+        uploadItem.fileTransfer.onProgress(function (event) {
+            console.log(Math.floor(event.loaded / event.total * 100) + '%');
+            uploadItem.progress = Math.floor(event.loaded / event.total * 100);
+            _this.chngDetect.detectChanges();
+        });
+        uploadItem.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then(function (data) {
             uploadItem.uploadProgress = false;
             uploadItem.uploadSuccess = true;
-            console.log('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
             _this.sendMsg('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
             var toast = _this.toastCtrl.create({
                 message: 'Your video "' + uploadItem.name + '" was uploaded successfully',
@@ -455,7 +458,7 @@ var CameraPage = (function () {
 }());
 CameraPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-camera',template:/*ion-inline-start:"/Users/jordan.hunter/angular_apps/memoriesApp/src/pages/camera/camera.html"*/'<ion-header>\n	<ion-toolbar>\n		<ion-title>\n			Video Capture\n		</ion-title>\n		<ion-buttons end>\n		      <button ion-button icon-only color="royal" (click)="logOut()">\n		        	<ion-icon name="ios-log-out-outline"></ion-icon>\n		      </button>\n	    </ion-buttons>\n	</ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n	<h5>Recordings:</h5>\n	<ion-list>\n		<ion-item-sliding *ngFor="let item of videoList">\n			<ion-item>\n				<ion-spinner *ngIf="item.uploadProgress" name="crescent"></ion-spinner>\n				<ion-icon icon-only *ngIf="item.uploadSuccess" name="ios-checkmark-circle-outline" color="secondary"></ion-icon>\n				<ion-icon icon-only *ngIf="item.uploadFail" name="ios-close-circle-outline" color="danger"></ion-icon>\n				&nbsp;\n				{{ item.name }}\n				<button ion-button icon-only clear item-end>\n					<ion-icon name="more"></ion-icon>\n				</button>\n			</ion-item>\n			<ion-item-options icon-start>\n				<button ion-button color="light" (click)="uploadVideo(item)">\n					Upload\n				</button>\n				<button ion-button (click)="shareVideo(item)">\n					<ion-icon name="ios-share-alt"></ion-icon>\n					Share\n				</button>\n			</ion-item-options>\n		</ion-item-sliding>\n	</ion-list>\n</ion-content>\n\n<ion-footer>\n	<ion-toolbar>\n		<ion-buttons start>\n		      <button ion-button color="royal" (click)="presentModal()">\n		        	Instructions\n		      </button>\n	    </ion-buttons>\n		<ion-title>\n		    <button ion-button icon-only color="royal" (click)="takeVideo()">\n		    	<ion-icon name="camera"></ion-icon>\n		    </button>\n		</ion-title>\n		<ion-buttons end>\n		      <button ion-button icon-only *ngIf="shareStatus" color="royal" (click)="shareAllVideos()">\n		        	<ion-icon name="ios-share-outline"></ion-icon>\n		      </button>\n	    </ion-buttons>\n	</ion-toolbar>\n</ion-footer>'/*ion-inline-end:"/Users/jordan.hunter/angular_apps/memoriesApp/src/pages/camera/camera.html"*/,
+        selector: 'page-camera',template:/*ion-inline-start:"/Users/jordan.hunter/angular_apps/memoriesApp/src/pages/camera/camera.html"*/'<ion-header>\n	<ion-toolbar>\n		<ion-title>\n			Video Capture\n		</ion-title>\n		<ion-buttons end>\n		      <button ion-button icon-only color="royal" (click)="logOut()">\n		        	<ion-icon name="ios-log-out-outline"></ion-icon>\n		      </button>\n	    </ion-buttons>\n	</ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n	<h5>Recordings:</h5>\n	<ion-list>\n		<ion-item-sliding *ngFor="let item of videoList">\n			<ion-item>\n				<ion-spinner *ngIf="item.uploadProgress" name="crescent"></ion-spinner>\n				<ion-icon icon-only *ngIf="item.uploadSuccess" name="ios-checkmark-circle-outline" color="secondary"></ion-icon>\n				<ion-icon icon-only *ngIf="item.uploadFail" name="ios-close-circle-outline" color="danger"></ion-icon>\n				&nbsp;\n				{{ item.name }}\n				<span *ngIf="item.uploadProgress" item-end>{{ item.progress }}%</span>\n			</ion-item>\n			<ion-item-options icon-start>\n				<button ion-button color="light" (click)="uploadVideo(item)">\n					Upload\n				</button>\n				<button ion-button (click)="shareVideo(item)">\n					<ion-icon name="ios-share-alt"></ion-icon>\n					Share\n				</button>\n			</ion-item-options>\n		</ion-item-sliding>\n	</ion-list>\n</ion-content>\n\n<ion-footer>\n	<ion-toolbar>\n		<ion-buttons start>\n		      <button ion-button color="royal" (click)="presentModal()">\n		        	Instructions\n		      </button>\n	    </ion-buttons>\n		<ion-title>\n		    <button ion-button icon-only color="royal" (click)="takeVideo()">\n		    	<ion-icon name="camera"></ion-icon>\n		    </button>\n		</ion-title>\n		<ion-buttons end>\n		      <button ion-button icon-only *ngIf="shareStatus" color="royal" (click)="shareAllVideos()">\n		        	<ion-icon name="ios-share-outline"></ion-icon>\n		      </button>\n	    </ion-buttons>\n	</ion-toolbar>\n</ion-footer>'/*ion-inline-end:"/Users/jordan.hunter/angular_apps/memoriesApp/src/pages/camera/camera.html"*/,
         providers: [__WEBPACK_IMPORTED_MODULE_6__app_websocket_service__["a" /* WebsocketService */], __WEBPACK_IMPORTED_MODULE_7__app_message_service__["a" /* MessageService */]]
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */],
@@ -466,7 +469,8 @@ CameraPage = __decorate([
         __WEBPACK_IMPORTED_MODULE_3__ionic_native_file__["a" /* File */],
         __WEBPACK_IMPORTED_MODULE_4__ionic_native_video_capture_plus__["a" /* VideoCapturePlus */],
         __WEBPACK_IMPORTED_MODULE_5__ionic_native_social_sharing__["a" /* SocialSharing */],
-        __WEBPACK_IMPORTED_MODULE_7__app_message_service__["a" /* MessageService */]])
+        __WEBPACK_IMPORTED_MODULE_7__app_message_service__["a" /* MessageService */],
+        __WEBPACK_IMPORTED_MODULE_0__angular_core__["k" /* ChangeDetectorRef */]])
 ], CameraPage);
 
 //# sourceMappingURL=camera.js.map
