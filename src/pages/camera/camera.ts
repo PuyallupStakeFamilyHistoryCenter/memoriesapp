@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { NavController, ToastController, AlertController, ModalController } from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
@@ -26,7 +26,6 @@ export class CameraPage {
 	videoList: any[] = [];
 	videoPathArray: string[] = [];
 	currentItem: any;
-	fileTransfer: FileTransferObject = this.transfer.create();
 	
 	private errorString: string;
 
@@ -38,7 +37,8 @@ export class CameraPage {
 				private fileCtrl: File,
 				private videoCapturePlus: VideoCapturePlus,
 				private socialSharing: SocialSharing,
-				private messageService: MessageService) {
+				private messageService: MessageService,
+				public chngDetect: ChangeDetectorRef) {
 					
 		this.errorString = 'Error';
 		messageService.messages.subscribe(msg => {			
@@ -76,10 +76,6 @@ export class CameraPage {
 				}
 			}
 		});
-		
-		/*this.fileTransfer.onProgress(event => {
-			
-		});*/
 	}
 	
 	ionViewDidLoad() {
@@ -146,7 +142,7 @@ export class CameraPage {
 
 		// Capture video and if accepted, call saveVideo function
     	this.videoCapturePlus.captureVideo({
-			limit: 120,
+			limit: 1,
 			highquality: true,
 			portraitOverlay: 'assets/img/camera/overlay/portrait.png',
 			landscapeOverlay: 'assets/img/camera/overlay/landscape.png'
@@ -176,11 +172,19 @@ export class CameraPage {
 		    }
 		}
 		
+		uploadItem.fileTransfer = this.transfer.create();
+		uploadItem.progress = 0;
 		uploadItem.uploadSuccess = false;
 		uploadItem.uploadFail = false;
 		uploadItem.uploadProgress = true;
 		
-		this.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then((data) => {
+		uploadItem.fileTransfer.onProgress(event => {
+			console.log(Math.floor(event.loaded/event.total * 100) + '%');
+			uploadItem.progress = Math.floor(event.loaded/event.total * 100);
+			this.chngDetect.detectChanges();
+		});
+		
+		uploadItem.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then((data) => {
 			uploadItem.uploadProgress = false;
 			uploadItem.uploadSuccess = true;
 			

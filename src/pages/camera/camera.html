@@ -21,9 +21,7 @@
 				<ion-icon icon-only *ngIf="item.uploadFail" name="ios-close-circle-outline" color="danger"></ion-icon>
 				&nbsp;
 				{{ item.name }}
-				<button ion-button icon-only clear item-end>
-					<ion-icon name="more"></ion-icon>
-				</button>
+				<span *ngIf="item.uploadProgress" item-end>{{ item.progress }}%</span>
 			</ion-item>
 			<ion-item-options icon-start>
 				<button ion-button color="light" (click)="uploadVideo(item)">
