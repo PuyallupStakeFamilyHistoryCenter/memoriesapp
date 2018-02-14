@@ -234,17 +234,37 @@ export class CameraPage {
 	}
 	
 	logOut(){
-		// Clear video files from tmp and our app video storage folder
-		if(this.videoList.length > 0) {
-			this.fileCtrl.listDir(this.fileCtrl.tempDirectory.substr(0, this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp').then(entry => this.removeFiles(this.fileCtrl.tempDirectory.substr(0, this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp', this.fileCtrl.tempDirectory, entry), error => console.log(error));
-		
-			this.fileCtrl.listDir(this.newPath.substr(0, this.newPath.lastIndexOf('/') - 11), 'pfhc_videos').then(entry => this.removeFiles(this.newPath.substr(0, this.newPath.lastIndexOf('/') - 11), 'pfhc_videos', this.newPath, entry), error => console.log(error));
-		}
-		
-		this.sendMsg('logout ' + window.name.split('|')[2]);
-		
-		window.name = '';
-		
-		this.navCtrl.push(UserListPage);
+		let confirm = this.alertCtrl.create({
+	    	title: 'Are you sure?',
+			message: 'By logging out, all videos from this session will be erased off of this device.',
+			buttons: [
+	        	{
+					text: 'Cancel',
+					handler: () => {
+						console.log('Cancel clicked');
+					}
+	        	},
+				{
+					text: 'Logout',
+					handler: () => {
+						console.log('Logout clicked');
+			            // Clear video files from tmp and our app video storage folder
+						if(this.videoList.length > 0) {
+							this.fileCtrl.listDir(this.fileCtrl.tempDirectory.substr(0, this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp').then(entry => this.removeFiles(this.fileCtrl.tempDirectory.substr(0, this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp', this.fileCtrl.tempDirectory, entry), error => console.log(error));
+						
+							this.fileCtrl.listDir(this.newPath.substr(0, this.newPath.lastIndexOf('/') - 11), 'pfhc_videos').then(entry => this.removeFiles(this.newPath.substr(0, this.newPath.lastIndexOf('/') - 11), 'pfhc_videos', this.newPath, entry), error => console.log(error));
+						}
+						
+						this.sendMsg('logout ' + window.name.split('|')[2]);
+						
+						window.name = '';
+						
+						this.navCtrl.push(UserListPage);
+	        		}
+	        	}
+			]
+	    });
+	    
+	    confirm.present();
 	}
 }
