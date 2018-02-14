@@ -445,14 +445,33 @@ var CameraPage = (function () {
     };
     CameraPage.prototype.logOut = function () {
         var _this = this;
-        // Clear video files from tmp and our app video storage folder
-        if (this.videoList.length > 0) {
-            this.fileCtrl.listDir(this.fileCtrl.tempDirectory.substr(0, this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp').then(function (entry) { return _this.removeFiles(_this.fileCtrl.tempDirectory.substr(0, _this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp', _this.fileCtrl.tempDirectory, entry); }, function (error) { return console.log(error); });
-            this.fileCtrl.listDir(this.newPath.substr(0, this.newPath.lastIndexOf('/') - 11), 'pfhc_videos').then(function (entry) { return _this.removeFiles(_this.newPath.substr(0, _this.newPath.lastIndexOf('/') - 11), 'pfhc_videos', _this.newPath, entry); }, function (error) { return console.log(error); });
-        }
-        this.sendMsg('logout ' + window.name.split('|')[2]);
-        window.name = '';
-        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_9__user_list_user_list__["a" /* UserListPage */]);
+        var confirm = this.alertCtrl.create({
+            title: 'Are you sure?',
+            message: 'By logging out, all videos from this session will be erased off of this device.',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    handler: function () {
+                        console.log('Cancel clicked');
+                    }
+                },
+                {
+                    text: 'Logout',
+                    handler: function () {
+                        console.log('Logout clicked');
+                        // Clear video files from tmp and our app video storage folder
+                        if (_this.videoList.length > 0) {
+                            _this.fileCtrl.listDir(_this.fileCtrl.tempDirectory.substr(0, _this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp').then(function (entry) { return _this.removeFiles(_this.fileCtrl.tempDirectory.substr(0, _this.fileCtrl.tempDirectory.lastIndexOf('/') - 3), 'tmp', _this.fileCtrl.tempDirectory, entry); }, function (error) { return console.log(error); });
+                            _this.fileCtrl.listDir(_this.newPath.substr(0, _this.newPath.lastIndexOf('/') - 11), 'pfhc_videos').then(function (entry) { return _this.removeFiles(_this.newPath.substr(0, _this.newPath.lastIndexOf('/') - 11), 'pfhc_videos', _this.newPath, entry); }, function (error) { return console.log(error); });
+                        }
+                        _this.sendMsg('logout ' + window.name.split('|')[2]);
+                        window.name = '';
+                        _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_9__user_list_user_list__["a" /* UserListPage */]);
+                    }
+                }
+            ]
+        });
+        confirm.present();
     };
     return CameraPage;
 }());

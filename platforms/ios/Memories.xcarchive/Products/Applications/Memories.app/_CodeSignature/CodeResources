@@ -14,7 +14,7 @@
 		</data>
 		<key>Assets.car</key>
 		<data>
-		m543q1zlXz2bCC7W7Hj8LR3a2vY=
+		AcdWk/42gjKeLWwo5ZdGt+wWfIM=
 		</data>
 		<key>CDVCapture.bundle/controls_bg.png</key>
 		<data>
@@ -138,7 +138,7 @@
 		</data>
 		<key>CDVLaunchScreen.storyboardc/01J-lp-oVM-view-Ze5-6b-2t3.nib</key>
 		<data>
-		VCY9t7SAc+JTavmZyZgu2RRi6lg=
+		5cB/EfCb4HnAG0Ir9GGUjhJiF94=
 		</data>
 		<key>CDVLaunchScreen.storyboardc/Info.plist</key>
 		<data>
@@ -146,7 +146,7 @@
 		</data>
 		<key>CDVLaunchScreen.storyboardc/UIViewController-01J-lp-oVM.nib</key>
 		<data>
-		TBvDR62Oto/G9YzhM28gPxi+Kus=
+		KhreGfJkft1toDxAEz34L2jTm+Q=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -210,7 +210,7 @@
 		</data>
 		<key>MainViewController.nib</key>
 		<data>
-		q2ncNRkkb98z2Y+eUWh68k94bX8=
+		jw/iJf6LqugdOSQutbZlXJbyYGE=
 		</data>
 		<key>PkgInfo</key>
 		<data>
@@ -226,7 +226,7 @@
 		</data>
 		<key>embedded.mobileprovision</key>
 		<data>
-		MwuD+FcJM7pFSbRG2HqE1ckQ72s=
+		9sxzVuaQ+Rip1iDYGMJ2xYCZB7s=
 		</data>
 		<key>www/assets/fonts/ionicons.woff</key>
 		<data>
@@ -282,11 +282,11 @@
 		</data>
 		<key>www/build/main.js</key>
 		<data>
-		JlLxJdJc4Cb/VTzyEoJ2As+SYCQ=
+		jdaBFJ/BcLAcgySfRC2Wt950jIA=
 		</data>
 		<key>www/build/main.js.map</key>
 		<data>
-		rHDwzSUnaIzLkg129tsMhZyKItc=
+		cMEqtNAUfnO7lmnTfM4ZsPrX9rk=
 		</data>
 		<key>www/build/polyfills.js</key>
 		<data>
@@ -302,7 +302,7 @@
 		</data>
 		<key>www/build/vendor.js.map</key>
 		<data>
-		Q3/n+0WWfvXnq4EY1crN8JyIy6g=
+		LtfNU2fDSLInkbbrOw/1I+UKR0g=
 		</data>
 		<key>www/cordova-js-src/exec.js</key>
 		<data>
@@ -525,11 +525,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			m543q1zlXz2bCC7W7Hj8LR3a2vY=
+			AcdWk/42gjKeLWwo5ZdGt+wWfIM=
 			</data>
 			<key>hash2</key>
 			<data>
-			wTgDaKYUY8JM9mCoga0CGlLEegYyA/D2OoikaOBNCFg=
+			USYf3EZMyv43nLjBvNsvzshX4oUUgUFjnJ2fTIqzwlI=
 			</data>
 		</dict>
 		<key>CDVCapture.bundle/controls_bg.png</key>
@@ -819,11 +819,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			VCY9t7SAc+JTavmZyZgu2RRi6lg=
+			5cB/EfCb4HnAG0Ir9GGUjhJiF94=
 			</data>
 			<key>hash2</key>
 			<data>
-			z3uWEKes3Va8GIONSQpaNbGRyMznSkxpcuyQVnNrpps=
+			UutbKnXt0mgnIs8uc1+fJzxsmni2OG85NsFK7HshcG0=
 			</data>
 		</dict>
 		<key>CDVLaunchScreen.storyboardc/Info.plist</key>
@@ -841,11 +841,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TBvDR62Oto/G9YzhM28gPxi+Kus=
+			KhreGfJkft1toDxAEz34L2jTm+Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			3cUC/u/IHx+8M1BDTx3qZjkg2tmNAaHHR0SobWoFW/o=
+			XExXus0JaQGYKyv4PBcgWLIW17B8sT38YW0HpZwVs7M=
 			</data>
 		</dict>
 		<key>LaunchImage-568h@2x.png</key>
@@ -1006,11 +1006,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			q2ncNRkkb98z2Y+eUWh68k94bX8=
+			jw/iJf6LqugdOSQutbZlXJbyYGE=
 			</data>
 			<key>hash2</key>
 			<data>
-			e9aDxmKN9mz3wHgJL56+yNBpLktem8bfmFkHK3BDtsI=
+			LW4BdnnttWRvicUCS92i6q13A9LEC0c7VTlzAkbBYNE=
 			</data>
 		</dict>
 		<key>archived-expanded-entitlements.xcent</key>
@@ -1039,11 +1039,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			MwuD+FcJM7pFSbRG2HqE1ckQ72s=
+			9sxzVuaQ+Rip1iDYGMJ2xYCZB7s=
 			</data>
 			<key>hash2</key>
 			<data>
-			bXbWJ7LiEdBZJcqdiL7eyJOs5KSrA2UjOenyniL2ezA=
+			w2le5pXzS3zIZqBmy8pjuojzE+8xjSgza/5NuED/ECQ=
 			</data>
 		</dict>
 		<key>www/assets/fonts/ionicons.woff</key>
@@ -1193,22 +1193,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			JlLxJdJc4Cb/VTzyEoJ2As+SYCQ=
+			jdaBFJ/BcLAcgySfRC2Wt950jIA=
 			</data>
 			<key>hash2</key>
 			<data>
-			+hKO9f/iQQBXdotuUBxK8idlIHZ3A5o2raA2oclEi5s=
+			TEBMG50nN9ExIZKTgGYWTfhfi5jzGaSvZ8PWZ3fxAm4=
 			</data>
 		</dict>
 		<key>www/build/main.js.map</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rHDwzSUnaIzLkg129tsMhZyKItc=
+			cMEqtNAUfnO7lmnTfM4ZsPrX9rk=
 			</data>
 			<key>hash2</key>
 			<data>
-			kUQxOVpLmgaCBLjwi7cbBz8vlQ56MV/AQBC6QbkgFfo=
+			Z0KNSKssL7Mv8bFkSuqjy/rb+Kfz5ASqrsV+Stirlj0=
 			</data>
 		</dict>
 		<key>www/build/polyfills.js</key>
@@ -1248,11 +1248,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Q3/n+0WWfvXnq4EY1crN8JyIy6g=
+			LtfNU2fDSLInkbbrOw/1I+UKR0g=
 			</data>
 			<key>hash2</key>
 			<data>
-			JVqo+3XGdlctRslwbl/obWC4Rw+dQqTfv7dDOt2tfMo=
+			ZJP1+dPXxNHWrUTcpHFG1ZtWwVvxmFvGcDcp/svERNw=
 			</data>
 		</dict>
 		<key>www/cordova-js-src/exec.js</key>
