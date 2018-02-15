@@ -304,10 +304,17 @@ var CameraPage = (function () {
                 }
             }
         });
+        this.task = setInterval(function () {
+            _this.sendMsg('ping');
+        }, 30000);
     }
     CameraPage.prototype.ionViewDidLoad = function () {
         // Show instructions on page load
         this.presentModal();
+    };
+    CameraPage.prototype.sendMsg = function (message) {
+        //console.log('new message from client to websocket: ', message);
+        this.messageService.messages.next(message);
     };
     CameraPage.prototype.presentModal = function () {
         var modal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_8__instructions_instructions__["a" /* InstructionsPage */]);
@@ -330,6 +337,7 @@ var CameraPage = (function () {
                     handler: function (data) {
                         if (data.name != '') {
                             _this.newName = data.name.replace(/ /g, '_').replace(/[`~!@#$%^&*()|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '').trim() + '.MOV';
+                            _this.currentItem = {};
                             _this.currentItem.name = _this.newName;
                             _this.currentItem.fullPath = _this.newPath + _this.newName;
                             _this.currentItem.uploadProgress = false;
@@ -354,10 +362,6 @@ var CameraPage = (function () {
         });
         prompt.present();
     };
-    CameraPage.prototype.sendMsg = function (message) {
-        //console.log('new message from client to websocket: ', message);
-        this.messageService.messages.next(message);
-    };
     CameraPage.prototype.takeVideo = function () {
         var _this = this;
         // Make sure that our video folder exists, and if not, create it.
@@ -381,53 +385,58 @@ var CameraPage = (function () {
     };
     CameraPage.prototype.uploadVideo = function (uploadItem) {
         var _this = this;
-        var options = {
-            httpMethod: 'PUT',
-            fileName: uploadItem.name,
-            mimeType: 'video/quicktime',
-            chunkedMode: false,
-            headers: {
-                'Content-Type': 'video/quicktime'
-            }
-        };
-        uploadItem.fileTransfer = this.transfer.create();
-        uploadItem.progress = 0;
-        uploadItem.uploadSuccess = false;
-        uploadItem.uploadFail = false;
-        uploadItem.uploadProgress = true;
-        uploadItem.fileTransfer.onProgress(function (event) {
-            console.log(Math.floor(event.loaded / event.total * 100) + '%');
-            uploadItem.progress = Math.floor(event.loaded / event.total * 100);
-            _this.chngDetect.detectChanges();
-        });
-        uploadItem.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then(function (data) {
-            uploadItem.uploadProgress = false;
-            uploadItem.uploadSuccess = true;
-            _this.sendMsg('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
-            var toast = _this.toastCtrl.create({
-                message: 'Your video "' + uploadItem.name + '" was uploaded successfully',
-                duration: 3000,
-                position: 'top'
+        if (typeof uploadItem.uploadData.url == 'undefined') {
+            this.sendMsg('signedPutUrl ' + window.name.split('|')[2] + ' video/quicktime');
+        }
+        else {
+            var options = {
+                httpMethod: 'PUT',
+                fileName: uploadItem.name,
+                mimeType: 'video/quicktime',
+                chunkedMode: false,
+                headers: {
+                    'Content-Type': 'video/quicktime'
+                }
+            };
+            uploadItem.fileTransfer = this.transfer.create();
+            uploadItem.progress = 0;
+            uploadItem.uploadSuccess = false;
+            uploadItem.uploadFail = false;
+            uploadItem.uploadProgress = true;
+            uploadItem.fileTransfer.onProgress(function (event) {
+                console.log(Math.floor(event.loaded / event.total * 100) + '%');
+                uploadItem.progress = Math.floor(event.loaded / event.total * 100);
+                _this.chngDetect.detectChanges();
             });
-            toast.present();
-        }, function (error) {
-            uploadItem.uploadProgress = false;
-            uploadItem.uploadFail = true;
-            if (error.body.indexOf('<Message>') != -1) {
-                var actualStart = error.body.indexOf('<Message>') + 9;
-                var strLength = error.body.indexOf('</Message>');
-                _this.errorString = error.body.substr(actualStart, (strLength - actualStart));
-            }
-            else {
-                _this.errorString = error.body != '' ? error.body : "Upload Failed.";
-            }
-            var toast = _this.toastCtrl.create({
-                message: _this.errorString,
-                duration: 5000,
-                position: 'top'
+            uploadItem.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then(function (data) {
+                uploadItem.uploadProgress = false;
+                uploadItem.uploadSuccess = true;
+                _this.sendMsg('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
+                var toast = _this.toastCtrl.create({
+                    message: 'Your video "' + uploadItem.name + '" was uploaded successfully',
+                    duration: 3000,
+                    position: 'top'
+                });
+                toast.present();
+            }, function (error) {
+                uploadItem.uploadProgress = false;
+                uploadItem.uploadFail = true;
+                if (error.body.indexOf('<Message>') != -1) {
+                    var actualStart = error.body.indexOf('<Message>') + 9;
+                    var strLength = error.body.indexOf('</Message>');
+                    _this.errorString = error.body.substr(actualStart, (strLength - actualStart));
+                }
+                else {
+                    _this.errorString = error.body != '' ? error.body : "Upload Failed.";
+                }
+                var toast = _this.toastCtrl.create({
+                    message: _this.errorString,
+                    duration: 5000,
+                    position: 'top'
+                });
+                toast.present();
             });
-            toast.present();
-        });
+        }
     };
     CameraPage.prototype.shareVideo = function (videoItem) {
         this.socialSharing.share('Attached is a video recorded at the Puyallup Family History Center', 'Video Recording - Puyallup Family History Center', videoItem.fullPath);
