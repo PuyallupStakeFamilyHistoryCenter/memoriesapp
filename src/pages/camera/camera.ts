@@ -26,6 +26,7 @@ export class CameraPage {
 	videoList: any[] = [];
 	videoPathArray: string[] = [];
 	currentItem: any;
+	task: any;
 	
 	private errorString: string;
 
@@ -76,11 +77,20 @@ export class CameraPage {
 				}
 			}
 		});
+		
+		this.task = setInterval(() => {
+			this.sendMsg('ping');
+		}, 30000);
 	}
 	
 	ionViewDidLoad() {
 		// Show instructions on page load
 		this.presentModal();	
+	}
+	
+	sendMsg(message) {
+		//console.log('new message from client to websocket: ', message);
+		this.messageService.messages.next(message);
 	}
 	
 	presentModal() {
@@ -104,6 +114,7 @@ export class CameraPage {
 					handler: data => {
 						if(data.name != ''){
 							this.newName = data.name.replace(/ /g, '_').replace(/[`~!@#$%^&*()|+\=?;:'",.<>\{\}\[\]\\\/]/gi, '').trim() + '.MOV';
+							this.currentItem = {};
 							this.currentItem.name = this.newName;
 							this.currentItem.fullPath = this.newPath + this.newName;
 							this.currentItem.uploadProgress = false;
@@ -131,11 +142,6 @@ export class CameraPage {
 	    prompt.present();
 	}
 	
-	sendMsg(message) {
-		//console.log('new message from client to websocket: ', message);
-		this.messageService.messages.next(message);
-	}
-	
 	takeVideo() {
 		// Make sure that our video folder exists, and if not, create it.
 		this.fileCtrl.checkDir(this.fileCtrl.documentsDirectory, 'pfhc_videos').then(exists => console.log('Video Folder Exists'), error => this.fileCtrl.createDir(this.fileCtrl.documentsDirectory, 'pfhc_videos', true).then(dirEntry => console.log(dirEntry), error => console.log('Could not create video directory')));
@@ -161,59 +167,63 @@ export class CameraPage {
 		this.showPrompt();
 	}
 	
-	uploadVideo(uploadItem) {		
-		let options: FileUploadOptions = {
-			httpMethod: 'PUT',
-		    fileName: uploadItem.name,
-		    mimeType: 'video/quicktime',
-		    chunkedMode: false,
-		    headers: {
-			    'Content-Type': 'video/quicktime'
-		    }
+	uploadVideo(uploadItem) {
+		if(typeof uploadItem.uploadData.url == 'undefined'){
+			this.sendMsg('signedPutUrl ' + window.name.split('|')[2] + ' video/quicktime');
+		} else {
+			let options: FileUploadOptions = {
+				httpMethod: 'PUT',
+			    fileName: uploadItem.name,
+			    mimeType: 'video/quicktime',
+			    chunkedMode: false,
+			    headers: {
+				    'Content-Type': 'video/quicktime'
+			    }
+			}
+			
+			uploadItem.fileTransfer = this.transfer.create();
+			uploadItem.progress = 0;
+			uploadItem.uploadSuccess = false;
+			uploadItem.uploadFail = false;
+			uploadItem.uploadProgress = true;
+			
+			uploadItem.fileTransfer.onProgress(event => {
+				console.log(Math.floor(event.loaded/event.total * 100) + '%');
+				uploadItem.progress = Math.floor(event.loaded/event.total * 100);
+				this.chngDetect.detectChanges();
+			});
+			
+			uploadItem.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then((data) => {
+				uploadItem.uploadProgress = false;
+				uploadItem.uploadSuccess = true;
+				
+				this.sendMsg('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
+				let toast = this.toastCtrl.create({
+					message: 'Your video "' + uploadItem.name + '" was uploaded successfully',
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
+			}, (error) => {
+				uploadItem.uploadProgress = false;
+				uploadItem.uploadFail = true;
+				
+		    	if(error.body.indexOf('<Message>') != -1) {
+			    	let actualStart = error.body.indexOf('<Message>') + 9;
+			    	let strLength = error.body.indexOf('</Message>');
+			    	this.errorString = error.body.substr(actualStart, (strLength - actualStart));
+		    	} else {
+			    	this.errorString = error.body != '' ? error.body : "Upload Failed."
+		    	}
+		    	
+		    	let toast = this.toastCtrl.create({
+					message: this.errorString,
+					duration: 5000,
+					position: 'top'
+				});
+				toast.present();
+			});
 		}
-		
-		uploadItem.fileTransfer = this.transfer.create();
-		uploadItem.progress = 0;
-		uploadItem.uploadSuccess = false;
-		uploadItem.uploadFail = false;
-		uploadItem.uploadProgress = true;
-		
-		uploadItem.fileTransfer.onProgress(event => {
-			console.log(Math.floor(event.loaded/event.total * 100) + '%');
-			uploadItem.progress = Math.floor(event.loaded/event.total * 100);
-			this.chngDetect.detectChanges();
-		});
-		
-		uploadItem.fileTransfer.upload(uploadItem.fullPath, uploadItem.uploadData.url, options).then((data) => {
-			uploadItem.uploadProgress = false;
-			uploadItem.uploadSuccess = true;
-			
-			this.sendMsg('registerAttachment ' + uploadItem.uploadData.userId + ' ' + uploadItem.uploadData.bucket + ' ' + uploadItem.uploadData.key);
-			let toast = this.toastCtrl.create({
-				message: 'Your video "' + uploadItem.name + '" was uploaded successfully',
-				duration: 3000,
-				position: 'top'
-			});
-			toast.present();
-		}, (error) => {
-			uploadItem.uploadProgress = false;
-			uploadItem.uploadFail = true;
-			
-	    	if(error.body.indexOf('<Message>') != -1) {
-		    	let actualStart = error.body.indexOf('<Message>') + 9;
-		    	let strLength = error.body.indexOf('</Message>');
-		    	this.errorString = error.body.substr(actualStart, (strLength - actualStart));
-	    	} else {
-		    	this.errorString = error.body != '' ? error.body : "Upload Failed."
-	    	}
-	    	
-	    	let toast = this.toastCtrl.create({
-				message: this.errorString,
-				duration: 5000,
-				position: 'top'
-			});
-			toast.present();
-		});
 	}
 	
 	shareVideo(videoItem){
