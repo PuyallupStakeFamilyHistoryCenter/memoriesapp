@@ -13,7 +13,7 @@ import { CameraPage } from '../camera/camera';
   providers: [ WebsocketService, MessageService ]
 })
 export class LoginPage {
-	
+	task: any;
 	account: { username: string, password: string } = {
     	username: '',
 		password: ''
@@ -54,6 +54,10 @@ export class LoginPage {
 			}
 	
 		});
+		
+		this.task = setInterval(() => {
+			this.sendMsg('ping');
+		}, 30000);
 	}
 	
 	ionViewDidLoad() {

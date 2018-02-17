@@ -25,7 +25,7 @@ import { InstructionsPage } from '../pages/instructions/instructions';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp, { swipeBackEnabled: false })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

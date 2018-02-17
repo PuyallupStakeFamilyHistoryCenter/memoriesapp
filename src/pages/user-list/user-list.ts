@@ -14,6 +14,7 @@ import { LoginPage } from '../login/login';
 })
 export class UserListPage {
 	currentUsers: any[];
+	task: any;
 	
 	constructor(private messageService: MessageService, public navCtrl: NavController) {
 		messageService.messages.subscribe(msg => {			
@@ -36,6 +37,10 @@ export class UserListPage {
 		});
 		
 		this.currentUsers = new Array();
+		
+		this.task = setInterval(() => {
+			this.sendMsg('ping');
+		}, 30000);
 	}
 	
 	sendMsg(message) {
