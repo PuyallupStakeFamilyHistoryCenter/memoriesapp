@@ -45,6 +45,9 @@ var UserListPage = (function () {
             }
         });
         this.currentUsers = new Array();
+        this.task = setInterval(function () {
+            _this.sendMsg('ping');
+        }, 30000);
     }
     UserListPage.prototype.sendMsg = function (message) {
         //console.log('new message from client to websocket: ', message);
@@ -199,6 +202,9 @@ var LoginPage = (function () {
                 }
             }
         });
+        this.task = setInterval(function () {
+            _this.sendMsg('ping');
+        }, 30000);
     }
     LoginPage.prototype.ionViewDidLoad = function () {
         this.account.username = window.name;
@@ -612,7 +618,7 @@ AppModule = __decorate([
         ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
-            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* MyApp */])
+            __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_9__app_component__["a" /* MyApp */], { swipeBackEnabled: false })
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["b" /* IonicApp */]],
         entryComponents: [
@@ -675,7 +681,7 @@ var MyApp = (function () {
     return MyApp;
 }());
 MyApp = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/jordan.hunter/angular_apps/memoriesApp/src/app/app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/Users/jordan.hunter/angular_apps/memoriesApp/src/app/app.html"*/
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/jordan.hunter/angular_apps/memoriesApp/src/app/app.html"*/'<ion-nav [root]="rootPage" swipeBackEnabled="false"></ion-nav>\n'/*ion-inline-end:"/Users/jordan.hunter/angular_apps/memoriesApp/src/app/app.html"*/
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
 ], MyApp);
